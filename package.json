@@ -1,0 +1,26 @@
+{
+  "name": "003---astudran",
+  "version": "1.0.0",
+  "description": "\"# astudran\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Target-Alpha-Q-Up/astudran.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Target-Alpha-Q-Up/astudran/issues"
+  },
+  "homepage": "https://github.com/Target-Alpha-Q-Up/astudran#readme",
+  "dependencies": {
+    "@discordjs/rest": "^0.3.0",
+    "ascii-table": "^0.0.9",
+    "discord.js": "^13.6.0",
+    "mongodb": "^4.4.1"
+  }
+}
