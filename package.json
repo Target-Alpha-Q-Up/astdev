@@ -1,23 +1,24 @@
 {
-  "name": "003---astudran",
+  "name": "003---astdev",
   "version": "1.0.0",
-  "description": "\"# astudran\"",
+  "description": "\"# astdev\"",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Target-Alpha-Q-Up/astudran.git"
+    "url": "git+https://github.com/Target-Alpha-Q-Up/astdev.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Target-Alpha-Q-Up/astudran/issues"
+    "url": "https://github.com/Target-Alpha-Q-Up/astdev/issues"
   },
-  "homepage": "https://github.com/Target-Alpha-Q-Up/astudran#readme",
+  "homepage": "https://github.com/Target-Alpha-Q-Up/astdev#readme",
   "dependencies": {
+    "@discordjs/builders": "^0.12.0",
     "@discordjs/rest": "^0.3.0",
     "ascii-table": "^0.0.9",
     "discord.js": "^13.6.0",
