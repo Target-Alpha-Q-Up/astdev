@@ -5,7 +5,8 @@
 | :---: | :--- |
 |`config.json` | Contains later retrieved data |
 |`node_modules` | Contains packets for used modules |
-|`command-tree` | Contains structure plan for commands & permissions |
+|`command-tree.txt` | Contains structure plan for commands & permissions |
+|`temp.js` | Contains temporary testing data for updates |
 
 ### config.json: Example
 ```
