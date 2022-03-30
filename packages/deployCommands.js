@@ -23,7 +23,10 @@ const { clientId, guildId, token } = require('../config.json');
 // 			option.setName("status")
 // 			.setDescription("The status type to display")
 // 			.setRequired(true)
-// 		)
+// 		),
+//     new SlashCommandBuilder()
+//         .setName("playerreset")
+//         .setDescription("Reset the player database")
 // ]
 // 	.map(command => command.toJSON());
 
