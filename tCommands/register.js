@@ -1,5 +1,6 @@
 const DataClient = require('../packages/dataHandler.js');
 const { Client, Message, MessageEmbed } = require("discord.js");
+const { default: mod } = require('zod');
 
 module.exports = {
     name: "register",
@@ -12,6 +13,7 @@ module.exports = {
 
     run: async (client, message, args) => {
         const dataClientNative = new DataClient("native");
+        const dataClientCore = new DataClient("core");
 
         dataClientNative.fetch_one("players", {
             "id": message.author.id.toString()
@@ -35,9 +37,9 @@ module.exports = {
                                             "xp": 0,
                                             "profession": "",
                                             "class": "",
-                                            "hp": 0,
-                                            "df": 0,
-                                            "dm": 0,
+                                            "hp": 100,
+                                            "df": 5,
+                                            "dm": 5,
                                             "accessory": "",
                                             "armor": "",
                                             "weapon": "",
@@ -70,47 +72,86 @@ module.exports = {
                 };
             }  else {
                 if(fetch) {
-                    if(['profession'].includes(args[0])) {
-                        args.shift();
-                        
-                        const profEmbed = new MessageEmbed()
-                            .setTitle("PROFESSIONS:")
-                            .setDescription("Every hero needs a major profession! Pick one from the list below and continue on your journey.")
-                            .addFields(
-                                { name: '\u200B', value: '\u200B' },
-                                { name: 'SOUND', value: 'Manipulate the invisible vibrations of sound in the air and make your foes concede.' },
-                                { name: 'MELEE', value: 'Brute strength combined with little wits create a truly unpredictable rage that will wipe enemies off the field.' },
-                                { name: 'MAGIC', value: 'Harness the acane forces and cause inevitable chaos upon those who dare face you.'},
-                                { name: 'RANGED', value: 'Hide in the shadows and unleash fury on oppenents from a distance.'},
-                            )
-
-                        message.channel.send({ embeds: [profEmbed] });
-
-                        let filter = m => m.author.id == message.author.id;
-                        message.channel.awaitMessages({ filter: filter, max: 1, time: 30000, errors: ["time"] })
-                                .then(collected => {
-                                    collected = collected.first()
-
-                                    if(['sound', 'melee', 'magic', 'ranged'].includes(collected.content.toLowerCase())) {
-                                        let query = {
-                                            "id": message.author.id.toString()
-                                        };
-
-                                        dataClientNative.update_one("players", query, { $set: {
-                                            "profession": collected.content.toLowerCase()
-                                        } });
-
-                                        message.channel.send(`Succesfully assigned profession \`${collected.content.toLowerCase()}\``);
-                                    } else {
-                                        message.channel.send("Failed: Unknown profession.");
-                                    };
-                                })
-                                .catch(err => {
-                                    message.channel.send("Timeout: Canceled operation.")
-                                });
-                    } else {
-                        message.channel.send("Failed: Unknown arguments.");
-                    };
+                    dataClientNative.find_one("players", { "id": message.author.id.toString()}).then(results => {
+                        if(results["profession"] == "") {
+                            if(['profession'].includes(args[0])) {
+                                args.shift();
+                                
+                                const profEmbed = new MessageEmbed()
+                                    .setTitle("PROFESSIONS:")
+                                    .setDescription("Every hero needs a major profession! Pick one from the list below and continue on your journey.")
+                                    .addFields(
+                                        { name: '\u200B', value: '\u200B' },
+                                        { name: 'SOUND', value: 'Manipulate the invisible vibrations of sound in the air and make your foes concede.' },
+                                        { name: 'MELEE', value: 'Brute strength combined with little wits create a truly unpredictable rage that will wipe enemies off the field.' },
+                                        { name: 'MAGIC', value: 'Harness the acane forces and cause inevitable chaos upon those who dare face you.'},
+                                        { name: 'RANGED', value: 'Hide in the shadows and unleash fury on oppenents from a distance.'},
+                                    )
+        
+                                message.channel.send({ embeds: [profEmbed] });
+        
+                                let filter = m => m.author.id == message.author.id;
+                                message.channel.awaitMessages({ filter: filter, max: 1, time: 30000, errors: ["time"] })
+                                        .then(collected => {
+                                            collected = collected.first()
+        
+                                            if(['sound', 'melee', 'magic', 'ranged'].includes(collected.content.toLowerCase())) {
+                                                dataClientCore.find_one("professions", {
+                                                    "profession": collected.content.toLowerCase()
+                                                }).then(results => {
+                                                    let query = {
+                                                        "id": message.author.id.toString()
+                                                    };
+        
+                                                    let bonus = results["classes"]["1"]["bonus"];
+                                                    var modifiers = bonus.split("/")[0];
+                                                    modifiers = modifiers.split(".");
+                                                    let prof = collected.content.toLowerCase();
+                                                    if(prof == "sound") {
+                                                        dataClientNative.update_one("players", query, { $set: {
+                                                            "profession": prof,
+                                                            "class": results["classes"]['1']['name'],
+                                                            "hp": (parseInt(modifiers[0]) + 100)
+                                                        } });
+                                                    } else if(prof == "melee") {
+                                                        dataClientNative.update_one("players", query, { $set: {
+                                                            "profession": prof,
+                                                            "class": results["classes"]['1']['name'],
+                                                            "dm": (parseInt(modifiers[0]) + 5),
+                                                            "df": (parseInt(modifiers[1]) + 5)
+                                                        } });
+                                                    } else if(prof == "magic") {
+                                                        dataClientNative.update_one("players", query, { $set: {
+                                                            "profession": prof,
+                                                            "class": results["classes"]['1']['name'],
+                                                            "hp": (parseInt(modifiers[0]) + 100),
+                                                            "dm": (parseInt(modifiers[1]) + 5)
+                                                        } });
+                                                    } else if(prof == "ranged") {
+                                                        dataClientNative.update_one("players", query, { $set: {
+                                                            "profession": prof,
+                                                            "class": results["classes"]['1']['name'],
+                                                            "hp": (parseInt(modifiers[0]) + 100),
+                                                            "df": (parseInt(modifiers[1]) + 5)
+                                                        } });
+                                                    };
+        
+                                                    message.channel.send(`Succesfully assigned profession \`${collected.content.toLowerCase()}\` and related class \`${results["classes"]["1"]["name"]}\`.`);
+                                                });
+                                            } else {
+                                                message.channel.send("Failed: Unknown profession.");
+                                            };
+                                        })
+                                        .catch(err => {
+                                            message.channel.send("Timeout: Canceled operation.")
+                                        });
+                            } else {
+                                message.channel.send("Failed: Unknown arguments.");
+                            };
+                        } else {
+                            message.channel.send("Failed: Player already assigned a profession.")
+                        };
+                    });
                 } else {
                     message.channel.send("Failed: Player not registered.");
                 };
