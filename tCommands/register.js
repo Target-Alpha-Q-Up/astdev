@@ -1,5 +1,5 @@
 const DataClient = require('../packages/dataHandler.js');
-const { Client, Message } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: "register",
@@ -69,12 +69,50 @@ module.exports = {
                     message.channel.send("Failed: Player already registered.")
                 };
             }  else {
-                if(['profession'].includes(args[0])) {
-                    args.shift();
-    
-                    message.channel.send("Profession");
+                if(fetch) {
+                    if(['profession'].includes(args[0])) {
+                        args.shift();
+                        
+                        const profEmbed = new MessageEmbed()
+                            .setTitle("PROFESSIONS:")
+                            .setDescription("Every hero needs a major profession! Pick one from the list below and continue on your journey.")
+                            .addFields(
+                                { name: '\u200B', value: '\u200B' },
+                                { name: 'SOUND', value: 'Manipulate the invisible vibrations of sound in the air and make your foes concede.' },
+                                { name: 'MELEE', value: 'Brute strength combined with little wits create a truly unpredictable rage that will wipe enemies off the field.' },
+                                { name: 'MAGIC', value: 'Harness the acane forces and cause inevitable chaos upon those who dare face you.'},
+                                { name: 'RANGED', value: 'Hide in the shadows and unleash fury on oppenents from a distance.'},
+                            )
+
+                        message.channel.send({ embeds: [profEmbed] });
+
+                        let filter = m => m.author.id == message.author.id;
+                        message.channel.awaitMessages({ filter: filter, max: 1, time: 30000, errors: ["time"] })
+                                .then(collected => {
+                                    collected = collected.first()
+
+                                    if(['sound', 'melee', 'magic', 'ranged'].includes(collected.content.toLowerCase())) {
+                                        let query = {
+                                            "id": message.author.id.toString()
+                                        };
+
+                                        dataClientNative.update_one("players", query, { $set: {
+                                            "profession": collected.content.toLowerCase()
+                                        } });
+
+                                        message.channel.send(`Succesfully assigned profession \`${collected.content.toLowerCase()}\``);
+                                    } else {
+                                        message.channel.send("Failed: Unknown profession.");
+                                    };
+                                })
+                                .catch(err => {
+                                    message.channel.send("Timeout: Canceled operation.")
+                                });
+                    } else {
+                        message.channel.send("Failed: Unknown arguments.");
+                    };
                 } else {
-                    message.channel.send("Failed: Unknown arguments.")
+                    message.channel.send("Failed: Player not registered.");
                 };
             };
         });
