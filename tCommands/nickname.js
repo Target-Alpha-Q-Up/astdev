@@ -31,21 +31,11 @@ module.exports = {
                                 } });
 
                                 message.channel.send(`Nickname succesfully updated to \`${name}\``);
-                            } else {
-                                message.channel.send("Failed: Only characters `A-Z`, `a-z`, `0-9` and `-`.");
-                            };
-                        } else {
-                            message.channel.send("Failed: Cannot exceed 15 characters.");
-                        };
-                    } else {
-                        message.channel.send("Failed: Minimum of 3 characters.");
-                    };
-                } else {
-                    message.channel.send("Failed: Required argument `name`.");
-                };
-            } else {
-                message.channel.send("Failed: Player not registered.");
-            };
+                            } else  message.channel.send("Failed: Only characters `A-Z`, `a-z`, `0-9` and `-`.");
+                        } else message.channel.send("Failed: Cannot exceed 15 characters.");
+                    } else message.channel.send("Failed: Minimum of 3 characters.");
+                } else  message.channel.send("Failed: Required argument `name`.");
+            } else message.channel.send("Failed: Player not registered.");
         });
     }
 };

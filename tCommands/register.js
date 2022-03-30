@@ -53,22 +53,14 @@ module.exports = {
                                         });
     
                                         message.channel.send(`Successfully registered as player \`${collected.content}\``);
-                                    } else {
-                                        message.channel.send("Failed: Only characters `A-Z`, `a-z`, `0-9` and `-`.")
-                                    };
-                                } else {
-                                    message.channel.send("Failed: Cannot exceed 15 characters.");
-                                };
-                            } else {
-                                message.channel.send('Failed: Minimum of 3 characters.');
-                            };
+                                    } else message.channel.send("Failed: Only characters `A-Z`, `a-z`, `0-9` and `-`.");
+                                } else message.channel.send("Failed: Cannot exceed 15 characters.");
+                            } else message.channel.send('Failed: Minimum of 3 characters.');
                         })
                         .catch(err => {
                             message.channel.send("Timeout: Canceled operation.")
                         });
-                } else {
-                    message.channel.send("Failed: Player already registered.")
-                };
+                } else message.channel.send("Failed: Player already registered.");
             }  else {
                 if(fetch) {
                     dataClientNative.find_one("players", { "id": message.author.id.toString()}).then(results => {
@@ -137,23 +129,15 @@ module.exports = {
         
                                                     message.channel.send(`Succesfully assigned profession \`${collected.content.toLowerCase()}\` and related class \`${results["classes"]["1"]["name"]}\`.`);
                                                 });
-                                            } else {
-                                                message.channel.send("Failed: Unknown profession.");
-                                            };
+                                            } else message.channel.send("Failed: Unknown profession.");
                                         })
                                         .catch(err => {
                                             message.channel.send("Timeout: Canceled operation.")
                                         });
-                            } else {
-                                message.channel.send("Failed: Unknown arguments.");
-                            };
-                        } else {
-                            message.channel.send("Failed: Player already assigned a profession.")
-                        };
+                            } else message.channel.send("Failed: Unknown arguments.");
+                        } else message.channel.send("Failed: Player already assigned a profession.")
                     });
-                } else {
-                    message.channel.send("Failed: Player not registered.");
-                };
+                } else message.channel.send("Failed: Player not registered.");
             };
         });
     }

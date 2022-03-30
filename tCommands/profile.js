@@ -39,9 +39,7 @@ module.exports = {
                         
                         message.channel.send({ embeds: [profileEmbed] });
                     });
-                } else {
-                    message.channel.send("Failed: Player not registered.");
-                }
+                } else message.channel.send("Failed: Player not registered.");
             });
         } else {
             dataClientNative.fetch_one("players", { "id": args[0].toString() }).then(fetch => {
@@ -70,9 +68,7 @@ module.exports = {
                         
                         message.channel.send({ embeds: [profileEmbed] });
                     });
-                } else {
-                    message.channel.send("Failed: Player not registered.");
-                }
+                } else message.channel.send("Failed: Player not registered.");
             });
         };
     }
