@@ -19,6 +19,21 @@ class DataClient {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     };
 
+    async fetch_one(coll, query) {
+        var result;
+        try {
+            await client.connect();
+
+            const db = client.db(this.database);
+
+            result = await db.collection(coll).findOne(query);
+        } finally {
+            await client.close();
+        };
+        if (result !== null) return true;
+        return false;
+    };
+
     async find_one(coll, query) {
         var result;
         try {
