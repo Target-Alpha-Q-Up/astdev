@@ -56,7 +56,7 @@ module.exports = {
                                         message.channel.send("Failed: Only characters `A-Z`, `a-z`, `0-9` and `-`.")
                                     };
                                 } else {
-                                    message.channel.send("Failed: Cannot exceed 15 characters");
+                                    message.channel.send("Failed: Cannot exceed 15 characters.");
                                 };
                             } else {
                                 message.channel.send('Failed: Minimum of 3 characters.');
