@@ -1,6 +1,5 @@
 const DataClient = require('../packages/dataHandler.js');
 const { Client, Message } = require("discord.js");
-const { Console } = require('console');
 
 module.exports = {
     name: "register",
