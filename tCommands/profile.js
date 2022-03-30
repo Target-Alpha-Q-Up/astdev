@@ -23,9 +23,17 @@ module.exports = {
                             .setDescription(`${results["profession"]} -> ${results["class"]}`)
                             .addFields(
                                 { name: '\u200B', value: '\u200B' },
+                                { name: 'Level', value: `${results["level"]}`, inline: true},
+                                { name: 'Experience', value: `${results["xp"]}`, inline: true},
+                                { name: 'Gold', value: `${results["gold"]}`, inline: true},
+                                { name: '\u200B', value: '\u200B' },
                                 { name: 'Health Points', value: `${results["hp"]}`, inline: true },
                                 { name: 'Damage', value: `${results["dm"]}`, inline: true },
-                                { name: 'Defense', value: `${results["df"]}`, inline: true }
+                                { name: 'Defense', value: `${results["df"]}`, inline: true },
+                                { name: '\u200B', value: '\u200B' },
+                                { name: 'Accessory', value: `${results["accessory"]}`, inline: true},
+                                { name: 'Armor', value: `${results["armor"]}`, inline: true},
+                                { name: 'Weapon', value: `${results["weapon"]}`, inline: true}
                             )
                             .setTimestamp();
                         
@@ -46,9 +54,17 @@ module.exports = {
                             .setDescription(`${results["profession"]} -> ${results["class"]}`)
                             .addFields(
                                 { name: '\u200B', value: '\u200B' },
+                                { name: 'Level', value: `${results["level"]}`, inline: true},
+                                { name: 'Experience', value: `${results["xp"]}`, inline: true},
+                                { name: 'Gold', value: `${results["gold"]}`, inline: true},
+                                { name: '\u200B', value: '\u200B' },
                                 { name: 'Health Points', value: `${results["hp"]}`, inline: true },
                                 { name: 'Damage', value: `${results["dm"]}`, inline: true },
-                                { name: 'Defense', value: `${results["df"]}`, inline: true }
+                                { name: 'Defense', value: `${results["df"]}`, inline: true },
+                                { name: '\u200B', value: '\u200B' },
+                                { name: 'Accessory', value: `${results["accessory"]}`, inline: true},
+                                { name: 'Armor', value: `${results["armor"]}`, inline: true},
+                                { name: 'Weapon', value: `${results["weapon"]}`, inline: true}
                             )
                             .setTimestamp();
                         
