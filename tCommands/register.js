@@ -1,6 +1,5 @@
 const DataClient = require('../packages/dataHandler.js');
 const { Client, Message, MessageEmbed } = require("discord.js");
-const { default: mod } = require('zod');
 
 module.exports = {
     name: "register",
