@@ -10,4 +10,10 @@ function levelCalc(xp) {
     return Math.floor(Math.cbrt(xp));
 };
 
-module.exports = { checkLevelUp, levelCalc }
+function inBetween(min, max) {
+    return Math.floor(
+        Math.random() * (max - min + 1) + min
+    );
+};
+
+module.exports = { checkLevelUp, levelCalc, inBetween }
